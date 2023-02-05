@@ -1,0 +1,112 @@
+# {
+#   employee(id: 1) {
+#     id,
+#     firstName,
+#     lastName,
+#     position
+# 	}
+# }
+
+# {
+#   department(id: 1) {
+#     id,
+#     name
+#   }
+# }
+
+# {
+#   organization(id: 1) {
+#     id,
+#     name
+#   }
+# }
+
+# {
+#   employeesWithFilter(filter: {
+#     age: {
+#       operator: "gt",
+#       value: "24"
+#     }
+#   }) {
+#     id,
+#     firstName,
+#     lastName,
+#     age
+#   }
+# }
+
+# {
+#   employeesWithFilter(filter: {
+#     age: {
+#       operator: "lt",
+#       value: "24"
+#     }
+#   }) {
+#     id,
+#     firstName,
+#     lastName,
+#     age
+#   }
+# }
+
+# {
+#   employeesWithFilter(filter: {
+#     salary: {
+#       operator: "lt",
+#       value: "50000000"
+#     }
+#   }) {
+#     id,
+#     firstName,
+#     lastName,
+#     salary
+#   }
+# }
+
+# {
+#   employeesWithFilter(filter: {
+#     salary: {
+#       operator: "gt",
+#       value: "50000000"
+#     }
+#   }) {
+#     id,
+#     firstName,
+#     lastName,
+#     salary
+#   }
+# }
+
+{
+  employeesWithFilter(filter: {
+    position: {
+      operator: "like",
+      value: "Backend"
+    }
+  }) {
+    id,
+    firstName,
+    lastName,
+    salary,
+    position
+  }
+}
+
+{
+  employeesWithFilter(filter: {
+    salary: {
+      operator: "gt",
+      value: "20000000"
+    }
+    position: {
+      operator: "like",
+      value: "Developer"
+    }
+  }) {
+    id,
+    firstName,
+    lastName,
+    salary,
+    position
+  }
+}

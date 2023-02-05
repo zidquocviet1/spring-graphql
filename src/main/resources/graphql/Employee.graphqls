@@ -1,0 +1,43 @@
+type Employee {
+    id: ID!,
+    firstName: String!,
+    middleName: String,
+    lastName: String!,
+    position: String!,
+    salary: Int!,
+    age: Int!,
+    organization: Organization!,
+    department: Department!
+}
+
+extend type Query {
+    employees: [Employee],
+    employee(id: ID!): Employee!,
+    employeesWithFilter(filter: EmployeeFilter): [Employee]
+}
+
+extend type Mutation {
+    newEmployee(employeeInput: EmployeeInput): Employee
+}
+
+input EmployeeInput {
+    firstName: String!,
+    middleName: String,
+    lastName: String!,
+    position: String!,
+    salary: Int!,
+    age: Int!,
+    organizationId: Int!,
+    departmentId: Int!
+}
+
+input EmployeeFilter {
+    salary: FilterField,
+    age: FilterField,
+    position: FilterField
+}
+
+input FilterField {
+    operator: String!,
+    value: String!
+}
