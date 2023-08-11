@@ -1,5 +1,7 @@
 package com.mqv.springgraphql.controller;
 
+import com.daw.graphql.clientoperation.PartnerInventoryListQuery;
+import com.mqv.springgraphql.client.DayAwayServiceClient;
 import com.mqv.springgraphql.entity.Department;
 import com.mqv.springgraphql.entity.Organization;
 import com.mqv.springgraphql.graphql.DepartmentInput;
@@ -11,13 +13,26 @@ import graphql.schema.DataFetchingFieldSelectionSet;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+//import org.springframework.security.access.prepost.PreAuthorize;
+import com.ptw.graphql.clientoperation.IdCardTypesQuery;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
-public record DepartmentController(DepartmentRepository departmentRepository,
-                                   OrganizationRepository organizationRepository) {
+public class DepartmentController {
+    private final DepartmentRepository departmentRepository;
+    private final OrganizationRepository organizationRepository;
+    private final DayAwayServiceClient dayAwayServiceClient;
+
+    public DepartmentController(DepartmentRepository departmentRepository, OrganizationRepository organizationRepository, DayAwayServiceClient dayAwayServiceClient) {
+        this.departmentRepository = departmentRepository;
+        this.organizationRepository = organizationRepository;
+        this.dayAwayServiceClient = dayAwayServiceClient;
+    }
+
     @QueryMapping
     public List<Department> departments(DataFetchingEnvironment environment) {
         DataFetchingFieldSelectionSet selectionSet = environment.getSelectionSet();
@@ -40,11 +55,22 @@ public record DepartmentController(DepartmentRepository departmentRepository,
     }
 
     @MutationMapping
+//    @PreAuthorize("hasRole('ADMIN')")
     public Department newDepartment(@Argument(name = "departmentInput") DepartmentInput department) {
         Organization organization = organizationRepository.findById(department.organizationId())
                 .orElseThrow();
         return departmentRepository.save(new Department(
-           null, department.name(), organization, null
+                null, department.name(), organization, null
         ));
+    }
+
+    @GetMapping("/id-card-types")
+    public CompletableFuture<List<IdCardTypesQuery.IdCardType>> get() {
+        return dayAwayServiceClient.getIdCardTypes("SG");
+    }
+
+    @GetMapping("/partner-inventory")
+    public CompletableFuture<List<PartnerInventoryListQuery.OnPartner>> getPartnerInventoryList() {
+        return dayAwayServiceClient.getPartnerInventoryList();
     }
 }

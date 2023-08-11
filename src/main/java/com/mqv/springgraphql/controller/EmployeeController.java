@@ -18,9 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public record EmployeeController(EmployeeRepository employeeRepository,
-                                 DepartmentRepository departmentRepository,
-                                 OrganizationRepository organizationRepository) {
+public class EmployeeController {
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
+    private final OrganizationRepository organizationRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, OrganizationRepository organizationRepository) {
+        this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
+        this.organizationRepository = organizationRepository;
+    }
+
     @QueryMapping
     public List<Employee> employees() {
         return employeeRepository.findAll();

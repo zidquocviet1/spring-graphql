@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table
 public class Employee {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String firstName;
     private String middleName;

@@ -1,0 +1,34 @@
+query PartnerInventoryList($filter: PartnerInventoryFilter) {
+    partnerInventoryList(filter: $filter) {
+        count
+        totalPage
+        data {
+            ... on Partner {
+                id
+                code
+                name
+                type
+                status
+                shortDescription
+                longDescription
+                addressLineOne
+                addressLineTwo
+                postalCode
+                phone
+                emailAddressList
+                countryId
+                currencyCode
+                latitude
+                longitude
+                primaryColor
+                brandLogoId
+                timezoneId
+                website
+                seoString
+                parentId
+                lowestPrice
+                marketPlaceStatus
+            }
+        }
+    }
+}

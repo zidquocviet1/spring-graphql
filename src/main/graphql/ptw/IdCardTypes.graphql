@@ -1,0 +1,7 @@
+query idCardTypes($countryCode: String!) {
+    idCardTypes(countryCode: $countryCode) {
+        id
+        description
+        name
+    }
+}

@@ -8,7 +8,7 @@ import java.util.Set;
 @Table
 public class Organization {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     @OneToMany(mappedBy = "organization")
